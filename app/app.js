@@ -4,7 +4,9 @@ const config = require('./config/config');
 const compression = require ('compression');
 const helmet = require('helmet');
 const https= require("https");
-const fs = require('fs')
+const fs = require('fs');
+const { Client } = require("pg");
+const http= require("http");
 
 
 
@@ -36,8 +38,23 @@ app.use(express.static('public'));
   
 app.set('trust proxy', 1); // trust first proxy
 
-const port = config.get('port') || 3000;
-const blogDB = config.get('db.name')
+
+const {user, host, database, password, port } = require("./config/awsconfig");
+
+const client = new Client({
+	user,
+	host,
+	database,
+	password,
+	port
+});
+
+client.connect();
+
+const selfPort = config.get('port') || 3000;
+/* const blogDB = config.get('db.name')
+
+
 
 const blog_db_url =
 	config.get('db.db_url') +
@@ -50,20 +67,17 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
   if(err){
     console.log(err)
   }
-});
+}); */
 
 app.use(
 	session({
 		secret: config.get('secret'),
 		resave: false,
-    store: MongoStore.create({
-      mongoUrl: blog_db_url,
-      ttl: 2 * 24 * 60 * 60
-    }),
 		saveUninitialized: false,
 		cookie: { secure: 'auto' }
 	})
 );
+
 
 
 
@@ -95,11 +109,8 @@ app.all('*', function(req, res) {
   res.redirect("/post/about");
 });
 
-const server = https.createServer({
-	key: fs.readFileSync('server.key'),
-	cert: fs.readFileSync('server.cert')
-}, app).listen(port,() => {
-console.log('Listening ...Server started on port ' + port);
-})
+const server = http.createServer(app.listen(selfPort,() => { 
+	console.log('Listening ...Server started on port ' + selfPort);
+	}))
 
-module.exports = app;
+module.exports = { app, client };
