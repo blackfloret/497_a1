@@ -75,7 +75,7 @@ const userRegister = async (req, res, next) => {
     console.log(input_username);
 
     const userExists = await User.findOne({ where: { username: input_username}});
-    const emailExists = await User.findOne({ where: { email: input_email}});
+    const emailExist = await User.findOne({ where: { email: input_email}});
 
 
     console.log(userExists);
