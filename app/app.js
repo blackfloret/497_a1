@@ -48,7 +48,6 @@ const RedisStore = connectRedis(session);
 
 // Session middleware
 
-const SESSION_SECRET = process.env.SESSION_SECRET;
 
   
 app.set('trust proxy', 1); // trust first proxy
@@ -72,7 +71,7 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
 app.use(
 	session({
 	  store: new RedisStore({ client: redis }),
-	  secret: SESSION_SECRET,
+	  secret: "secret",
 	  resave: false,
 	  saveUninitialized: false,
 	  cookie: {
