@@ -71,7 +71,7 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
 app.use(
 	session({
 	  store: new RedisStore({ client: redis }),
-	  secret: "secret",
+	  secret: config.get('secret'),
 	  resave: false,
 	  saveUninitialized: false,
 	  cookie: {
