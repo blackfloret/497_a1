@@ -37,7 +37,6 @@ app.set('trust proxy', 1); // trust first proxy
 
 
 
-const session = require('express-session');
 
 const selfPort = config.get('port') || 3000;
 /* const blogDB = config.get('db.name')
