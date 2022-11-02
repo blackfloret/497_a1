@@ -64,7 +64,7 @@ router.post(
 		// Indicates the success of this synchronous custom validator
 		return true;
 	}),
-	body('password', 'Password must contain at least one lowercase character, one uppercase character, and one symbol.').matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, "i"),
+	body('password', 'Password must contain at least one lowercase character, one uppercase character, and one symbol.').matches(/^(?=.*[A-Za-z])(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$/, "i"),
     userControllers.userRegister
 );
 
