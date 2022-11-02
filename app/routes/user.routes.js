@@ -55,6 +55,8 @@ router.post(
 	'/register',
 	body('username', 'Username field cannot be empty.').notEmpty(),
 	body('username', 'Username must be between 5-15 characters long.').isLength({ min: 5, max: 15 }),
+	body('email', 'Email must be at least 8 characters').isLength({min:8}),
+	body('password', 'Password must be at least 8 characters').isLength({min:8}),
 	body('passwordMatch', 'Passwords do not match, please enter matching passwords.').custom((value, { req }) => {
 		if (value !== req.body.password) {
 			throw new Error('Password confirmation does not match password');
@@ -62,6 +64,7 @@ router.post(
 		// Indicates the success of this synchronous custom validator
 		return true;
 	}),
+	body('password', "Password must contain at least one lowercase character, one uppercase character, and one symbol.").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i"),
     userControllers.userRegister
 );
 
