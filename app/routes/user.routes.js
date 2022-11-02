@@ -46,13 +46,13 @@ router.get('/register', function(req, res) {
 	});
 });
 
-router.post("/register", function(req, res) {
+/* router.post("/register", function(req, res) {
 	Signup;
-})
+}) */
 
 //route("/register").post(Signup);
 
-/* router.post(
+router.post(
 	'/register',
 	body('username', 'Username field cannot be empty.').notEmpty(),
 	body('username', 'Username must be between 5-15 characters long.').isLength({ min: 5, max: 15 }),
@@ -64,6 +64,6 @@ router.post("/register", function(req, res) {
 		return true;
 	}),
     userControllers.userRegister
-); */
+);
 
 module.exports = router
