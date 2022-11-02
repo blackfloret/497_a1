@@ -14,13 +14,18 @@ const composePost = async (req, res) => {
 	res.redirect('/post');
 };
 
-const displayAllPosts = (req, res) => {
-	Post.find({}, function(err, posts) {
+const displayAllPosts = async (req, res) => {
+	const posts = await Post.findAll();
+	res.render('home', {
+		startingContent: homeStartingContent,
+		post: posts
+	});
+/* 	Post.find({}, function(err, posts) {
 		res.render('home', {
 			startingContent: homeStartingContent,
 			posts: posts
 		});
-	});
+	}); */
 };
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
