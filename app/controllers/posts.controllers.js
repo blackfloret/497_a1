@@ -32,7 +32,7 @@ const displayAllPosts = async (req, res) => {
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
 	//const post = await Post.findOne({where: { id: requestedPostId}});
-	console.log(cache.getCache(requestedPostId));
+	console.log(await cache.getCache(requestedPostId));
 	const post = await cache.cache(requestedPostId, async () => await Post.findOne({where: { id: requestedPostId}}))
 	res.render('post', {
 		title: post.tile,
