@@ -1,4 +1,4 @@
-const client = require("app.js")(client)
+const client = require('./database.js');
 const bcrypt = require("bcryptjs");
 
 const emailExists = async (email) => {

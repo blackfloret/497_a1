@@ -3,7 +3,6 @@ const express = require('express');
 const config = require('./config/config');
 const compression = require ('compression');
 const helmet = require('helmet');
-const https= require("https");
 const fs = require('fs');
 const { Client } = require("pg");
 const http= require("http");
