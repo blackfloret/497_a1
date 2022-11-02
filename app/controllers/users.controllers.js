@@ -1,4 +1,52 @@
-const User = require('../models/user');
+const { User } = require('../models/user');
+const bcrypt = require("bcrypt");
+
+const Signup = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const salt = await bcrypt.genSalt(12);
+
+        const hashed_password = await bcrypt.hash(password, salt);
+
+        const user = await User.create({ email, password: hashed_password });
+        if(user) {
+            res.redirect('/post');
+        }
+    } catch(e) {
+        res.redirect('/user/register');
+    }
+}
+
+exports.HomePage = async (req, res) => {
+    if (!req.user) {
+      return res.redirect("/");
+    }
+    res.render("home", {
+      sessionID: req.sessionID,
+      sessionExpireTime: new Date(req.session.cookie.expires) - new Date(),
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user,
+    });
+   };
+   
+exports.LoginPage = async (req, res) => {
+    res.direct("/user/login");
+};
+
+exports.registerPage = async (req, res) => {
+    res.direct("/user/register");
+};
+
+exports.Logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return console.log(err);
+        }
+        res.redirect("/");
+    })
+}
+
 const passport = require('passport');
 const { usernameExists, createUser, emailExists } = require('../helper');
 const { body, validationResult } = require('express-validator');
@@ -26,8 +74,9 @@ const userRegister = async (req, res, next) => {
 
     console.log(input_username);
 
-    const userExists = await usernameExists(input_username);
-    const emailExist = await emailExists (input_email);
+    const userExists = await User.findOne({ where: { username: input_username}});
+    const emailExists = await User.findOne({ where: { email: input_email}});
+
 
     console.log(userExists);
     console.log(emailExist);
@@ -37,14 +86,22 @@ const userRegister = async (req, res, next) => {
         res.redirect('register');
     } else {
         console.log(input_email, input_password, input_username);
-        createUser(input_username, input_email, input_password);
-        passport.authenticate('local')(req, res, function () {
+        //newUser = new User({ email: req.body.email, username: req.body.username });
+        const salt = await bcrypt.genSalt(12);
+
+        const hashed_password = await bcrypt.hash(input_password, salt);
+
+        const user = await User.create({ username: input_username, email: input_email, password: hashed_password });
+        if(user) {
             res.redirect('/post');
-        });
+        } else {
+            res.redirect('/register');
+        }
     }
 };
 
 module.exports = {
+    Signup,
     userRegister,
     userLogout
 };

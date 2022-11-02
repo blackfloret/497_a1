@@ -1,8 +1,17 @@
-const express = require('express');
+const express = require("express");
+const {
+	HomePage,
+	LoginPage,
+	registerPage,
+	Logout,
+} = require("../controllers/users.controllers");
+const passport = require("passport");
+
+const router = express.Router();
+
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const { body, validationResult } = require('express-validator');
-const router = express.Router();
 
 const checkAuth = require('../middleware/checkAuth.middleware');
 const userControllers = require('../controllers/users.controllers');
@@ -14,9 +23,17 @@ router.use(express.static('public'));
 
 router.post('/logout', userControllers.userLogout);
 
-router.post('/login', checkAuth.authenticateUserMiddleware, function(req, res) {
+router.route('/login').post(
+	passport.authenticate("local", {
+		failureRedirect: "/",
+		successRedirect: "/post",
+	}),
+	function (req, res) {}
+)
+
+/* router.post('/login', checkAuth.authenticateUserMiddleware, function(req, res) {
 	res.redirect('/post/');
-});
+}); */
 
 router.get('/login', function(req, res) {
 	res.render('login');
@@ -28,11 +45,18 @@ router.get('/register', function(req, res) {
 	});
 });
 
+/* router.post("/register", function(req, res) {
+	userControllers.Signup;
+}) */
+
+//route("/register").post(Signup);
 
 router.post(
 	'/register',
 	body('username', 'Username field cannot be empty.').notEmpty(),
 	body('username', 'Username must be between 5-15 characters long.').isLength({ min: 5, max: 15 }),
+	body('email', 'Email must be at least 8 characters').isLength({min:8}),
+	body('password', 'Password must be at least 8 characters').isLength({min:8}),
 	body('passwordMatch', 'Passwords do not match, please enter matching passwords.').custom((value, { req }) => {
 		if (value !== req.body.password) {
 			throw new Error('Password confirmation does not match password');
@@ -40,6 +64,7 @@ router.post(
 		// Indicates the success of this synchronous custom validator
 		return true;
 	}),
+	body('password', 'Password must contain at least one lowercase character, one uppercase character, and one symbol.').matches(/^(?=.*[A-Za-z])(?=.*[@$!%*#?&])[A-Za-z@$!%*#?&]{8,}$/, "i"),
     userControllers.userRegister
 );
 

@@ -1,4 +1,31 @@
-const mongoose = require("mongoose");
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = new Sequelize ({
+	host: "blogdb.cjefnmgsr53w.us-west-2.rds.amazonaws.com",
+	database: "BlogDB",
+	username: "admin",
+	password: "password",
+	dialect: "mysql",
+})
+
+exports.Post = sequelize.define("posts", {
+	id: {
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
+		primaryKey: true,
+	},
+	username: {
+		type: DataTypes.STRING,
+	},
+	title: {
+		type: DataTypes.STRING,
+	},
+	content: {
+		type: DataTypes.STRING,
+	},
+})
+
+
+/* const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
 	username: {
@@ -13,4 +40,4 @@ const postSchema = new mongoose.Schema({
 	content: { type: String, required: [ true, "can't be blank" ] }
 });
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Post", postSchema); */
