@@ -84,17 +84,9 @@ const userRegister = async (req, res, next) => {
         res.redirect('register');
     } else {
         console.log(input_email, input_password, input_username);
-        newUser = new User({ email: req.body.email, username: req.body.username });
-        User.register(newUser, input_password, function (err, user) {
-            if (err) {
-                console.log(err);
-                res.redirect('/user/register');
-            } else {
-                passport.authenticate('local')(req, res, function () {
-                    res.redirect('/post');
-                });
-            }
-        });
+        //newUser = new User({ email: req.body.email, username: req.body.username });
+        const newUser = User.build({username: input_username, email: input_email, password: input_password});
+        await newUser.save();
     }
 };
 
