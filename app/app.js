@@ -5,15 +5,20 @@ const compression = require ('compression');
 const helmet = require('helmet');
 const fs = require('fs');
 const http= require("http");
+const Redis = require("ioredis");
 
 
 
 
 const bodyParser = require('body-parser');
 const session = require('express-session');
+let RedisStore = require("connect-redis")(session)
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const mongoSanitize = require('express-mongo-sanitize');
+
+const redis = new Redis("blogredis-001.yl7oqa.0001.usw2.cache.amazonaws.com");
+
 
 
 const User = require("./models/user");
@@ -58,7 +63,7 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
 
 app.use(
 	session({
-		store: new RedisStore({ client: redisClient}),
+		store: new RedisStore({ client: redis}),
 		secret: config.get('secret'),
 		resave: false,
 		saveUninitialized: false,
