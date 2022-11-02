@@ -119,7 +119,7 @@ app.all('*', function(req, res) {
 console.log('Listening ...Server started on port ' + port);
 }) */
 
-//passportConfig();
+passportConfig();
 
 
 app.listen(4300, () => {
