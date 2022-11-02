@@ -7,7 +7,7 @@ const https= require("https");
 const fs = require('fs')
 const Redis = require("ioredis");
 
-const { passportConfig } = require("passport");
+const { passportConfig } = require("./utils/passport");
 
 
 const session = require('express-session');
