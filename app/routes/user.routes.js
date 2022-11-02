@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-	Signup,
 	HomePage,
 	LoginPage,
 	registerPage,
@@ -46,9 +45,9 @@ router.get('/register', function(req, res) {
 	});
 });
 
-/* router.post("/register", function(req, res) {
-	Signup;
-}) */
+router.post("/register", function(req, res) {
+	userControllers.Signup;
+})
 
 //route("/register").post(Signup);
 
