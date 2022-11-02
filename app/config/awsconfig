@@ -1,7 +1,0 @@
-module.exports = {
-    user: "masterUsername",
-    host: "databasea1.cbkfyycrx0ov.us-west-2.rds.amazonaws.com",
-    database: "myDatabase",
-    password: "password",
-    port: 5432
-}
