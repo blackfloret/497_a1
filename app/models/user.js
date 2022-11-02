@@ -2,8 +2,8 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize ({
 	host: "blogdb.cjefnmgsr53w.us-west-2.rds.amazonaws.com",
 	database: "BlogDB",
-	username: "newuser",
-	password: "1234",
+	username: "admin",
+	password: "password",
 	dialect: "mysql",
 })
 
