@@ -4,14 +4,13 @@ const Post = require("../models/post");
 const homeStartingContent =
 	'The home pages lists all the blogs from all the users.';
 
-const composePost = (req, res) => {
-	const post = new Post({
+const composePost = async (req, res) => {
+	const post = await Post.create({
     username: req.user.username,
 		title: req.body.postTitle,
 		content: req.body.postBody
 	});
 
-	post.save();
 	res.redirect('/post');
 };
 
