@@ -1,10 +1,11 @@
-const { config } = require("dotenv");
+require('dotenv').config();
+const config = require('../config/config');
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize ({
-	host: config.get("db:host"),
-	database: config.get("db:name"),
-	username: config.get("db:username"),
-	password: config.get("db:password"),
+	host: config.get("db").host,
+	database: config.get("db").name,
+	username: config.get("db").username,
+	password: config.get("db").password,
 	dialect: "mysql",
 })
 
