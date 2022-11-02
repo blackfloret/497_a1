@@ -5,4 +5,5 @@ up running into more issues than necessary, so switched over to MySql.
 
 The most challenging part of this assignment was implementing session
 storing with Redis, this was the point we decided to switch to MySql because of
-the challenges.
+the challenges. We used a mixture of the slides, lecture recordings and external
+sources to solve our issues.
