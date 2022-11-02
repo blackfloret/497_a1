@@ -9,7 +9,7 @@ const Signup = async (req, res) => {
 
         const hashed_password = await bcrypt.hash(password, salt);
 
-        const user = await User.create({ email, password: hashed_passord });
+        const user = await User.create({ email, password: hashed_password });
         if(user) {
             res.redirect('/post');
         }
@@ -85,8 +85,16 @@ const userRegister = async (req, res, next) => {
     } else {
         console.log(input_email, input_password, input_username);
         //newUser = new User({ email: req.body.email, username: req.body.username });
-        const newUser = User.build({username: input_username, email: input_email, password: input_password});
-        await newUser.save();
+        const salt = await bcrypt.genSalt(12);
+
+        const hashed_password = await bcrypt.hash(input_password, salt);
+
+        const user = await User.create({ username: input_username, email: input_email, password: hashed_password });
+        if(user) {
+            res.redirect('/post');
+        } else {
+            res.redirect('/register');
+        }
     }
 };
 
