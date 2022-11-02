@@ -49,7 +49,7 @@ var config = convict({
       default: 'http://blogdb.cjefnmgsr53w.us-west-2.rds.amazonaws.com/',
       env: 'DB_URL'
     },
-    password: {
+    username: {
       doc: 'db username',
       format: '*',
       default: 'admin',
