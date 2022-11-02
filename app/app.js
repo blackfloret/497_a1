@@ -38,7 +38,7 @@ app.use(compression());
 app.use(express.static('public'));
 
 // Redis config
-const redis = new Redis("blogcluster.ntwtkd.ng.0001.usw2.cache.amazonaws.com");
+const redis = new Redis("blogredis-001.yl7oqa.0001.usw2.cache.amazonaws.com");
 /* const redisClient = createClient({ 
 	legacyMode: true,
 	socket: {
