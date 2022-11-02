@@ -81,7 +81,7 @@ const userRegister = async (req, res, next) => {
     console.log(userExists);
     console.log(emailExist);
 
-    if (userExists != false || emailExist != false) {
+    if (userExists != null || emailExist != null) {
         console.log('User or email exists');
         res.redirect('register');
     } else {
