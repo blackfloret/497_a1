@@ -3,13 +3,8 @@ const express = require('express');
 const config = require('./config/config');
 const compression = require ('compression');
 const helmet = require('helmet');
-<<<<<<< HEAD
-const fs = require('fs');
-const http= require("http");
-=======
 const https= require("https");
 const fs = require('fs')
->>>>>>> mysql
 const Redis = require("ioredis");
 
 const { passportConfig } = require("./utils/passport");
@@ -21,17 +16,6 @@ const { createClient } = require("redis");
 const passport = require("passport");
 
 const bodyParser = require('body-parser');
-<<<<<<< HEAD
-const session = require('express-session');
-let RedisStore = require("connect-redis")(session)
-const passport = require('passport');
-const MongoStore = require('connect-mongo');
-const mongoSanitize = require('express-mongo-sanitize');
-=======
->>>>>>> mysql
-
-const redis = new Redis("blogredis-001.yl7oqa.0001.usw2.cache.amazonaws.com");
-
 
 
 const User = require("./models/user");
@@ -68,18 +52,8 @@ const RedisStore = connectRedis(session);
   
 app.set('trust proxy', 1); // trust first proxy
 
-<<<<<<< HEAD
-
-
-
-const selfPort = config.get('port') || 3000;
-/* const blogDB = config.get('db.name')
-
-
-=======
 const port = config.get('port') || 3000;
 /* const blogDB = config.get('db.name')
->>>>>>> mysql
 
 const blog_db_url =
 	config.get('db.db_url') +
@@ -96,13 +70,6 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
 
 app.use(
 	session({
-<<<<<<< HEAD
-		store: new RedisStore({ client: redis}),
-		secret: config.get('secret'),
-		resave: false,
-		saveUninitialized: false,
-		cookie: { secure: 'auto' }
-=======
 	  store: new RedisStore({ client: redis }),
 	  secret: config.get('secret'),
 	  resave: false,
@@ -112,7 +79,6 @@ app.use(
 		httpOnly: false, // if true prevent client side JS from reading the cookie
 		maxAge: 1000 * 60 * 10, // session max age in milliseconds
 	  },
->>>>>>> mysql
 	})
    );
 
@@ -147,11 +113,6 @@ app.all('*', function(req, res) {
   res.redirect("/post/about");
 });
 
-<<<<<<< HEAD
-const server = http.createServer(app.listen(selfPort,() => { 
-	console.log('Listening ...Server started on port ' + selfPort);
-	}))
-=======
 /* const server = https.createServer({
 	key: fs.readFileSync('server.key'),
 	cert: fs.readFileSync('server.cert')
@@ -166,6 +127,5 @@ app.listen(4300, () => {
 	console.log(`Server started at port ${4300}`);
 });
 
->>>>>>> mysql
 
 module.exports = app
