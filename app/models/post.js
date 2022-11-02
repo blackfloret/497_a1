@@ -24,6 +24,7 @@ exports.Post = sequelize.define("posts", {
 	},
 })
 
+
 /* const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
