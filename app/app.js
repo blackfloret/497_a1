@@ -6,21 +6,25 @@ const helmet = require('helmet');
 const https= require("https");
 const fs = require('fs')
 
+const { passportConfig } = require("passport");
 
 
-
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const session = require('express-session');
-const passport = require('passport');
+const connectRedis = require("connect-redis");
+const { createClient } = require("redis");
+const passport = require("passport");
+
+const bodyParser = require('body-parser');/* 
+const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
-const mongoSanitize = require('express-mongo-sanitize');
+const mongoSanitize = require('express-mongo-sanitize'); */
 
 
 const User = require("./models/user");
 
 const userRouter = require('./routes/user.routes');
 const postRouter = require('./routes/post.routes');
+const { hostname } = require('os');
 
 
 const app = express();
@@ -30,14 +34,29 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(compression());
-app.use(mongoSanitize());
 app.use(express.static('public'));
+
+// Redis config
+
+const redisClient = createClient({ 
+	legacyMode: true,
+	socket: {
+		host: "blogcluster.ntwtkd.ng.0001.usw2.cache.amazonaws.com",
+		port: 6379
+	} 
+});
+redisClient.connect().catch(console.error);
+const RedisStore = connectRedis(session);
+
+// Session middleware
+
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
   
 app.set('trust proxy', 1); // trust first proxy
 
 const port = config.get('port') || 3000;
-const blogDB = config.get('db.name')
+/* const blogDB = config.get('db.name')
 
 const blog_db_url =
 	config.get('db.db_url') +
@@ -50,27 +69,28 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
   if(err){
     console.log(err)
   }
-});
+}); */
 
 app.use(
 	session({
-		secret: config.get('secret'),
-		resave: false,
-    store: MongoStore.create({
-      mongoUrl: blog_db_url,
-      ttl: 2 * 24 * 60 * 60
-    }),
-		saveUninitialized: false,
-		cookie: { secure: 'auto' }
+	  store: new RedisStore({ client: redisClient }),
+	  secret: SESSION_SECRET,
+	  resave: false,
+	  saveUninitialized: false,
+	  cookie: {
+		secure: false,  // if true only transmit cookie over https
+		httpOnly: false, // if true prevent client side JS from reading the cookie
+		maxAge: 1000 * 60 * 10, // session max age in milliseconds
+	  },
 	})
-);
+   );
 
 
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(User.createStrategy());
+/* passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
@@ -80,7 +100,7 @@ passport.deserializeUser(function(id, done) {
 	User.findById(id, function(err, user) {
 		done(err, user);
 	});
-});
+}); */
 
 app.use(function(req, res, next) {
 	res.locals.isAuthenticated=req.isAuthenticated();
@@ -95,11 +115,19 @@ app.all('*', function(req, res) {
   res.redirect("/post/about");
 });
 
-const server = https.createServer({
+/* const server = https.createServer({
 	key: fs.readFileSync('server.key'),
 	cert: fs.readFileSync('server.cert')
 }, app).listen(port,() => {
 console.log('Listening ...Server started on port ' + port);
-})
+}) */
+
+//passportConfig();
+
+
+app.listen(4300, () => {
+	console.log(`Server started at port ${4300}`);
+});
+
 
 module.exports = app;

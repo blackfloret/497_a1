@@ -1,8 +1,18 @@
-const express = require('express');
+const express = require("express");
+const {
+	Signup,
+	HomePage,
+	LoginPage,
+	registerPage,
+	Logout,
+} = require("../controllers/users.controllers");
+const passport = require("passport");
+
+const router = express.Router();
+
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const { body, validationResult } = require('express-validator');
-const router = express.Router();
 
 const checkAuth = require('../middleware/checkAuth.middleware');
 const userControllers = require('../controllers/users.controllers');
@@ -14,9 +24,17 @@ router.use(express.static('public'));
 
 router.post('/logout', userControllers.userLogout);
 
-router.post('/login', checkAuth.authenticateUserMiddleware, function(req, res) {
+router.route('/login').post(
+	passport.authenticate("local", {
+		failureRedirect: "/",
+		successRedirect: "/post",
+	}),
+	function (req, res) {}
+)
+
+/* router.post('/login', checkAuth.authenticateUserMiddleware, function(req, res) {
 	res.redirect('/post/');
-});
+}); */
 
 router.get('/login', function(req, res) {
 	res.render('login');
@@ -28,8 +46,13 @@ router.get('/register', function(req, res) {
 	});
 });
 
+router.post("/register", function(req, res) {
+	Signup;
+})
 
-router.post(
+//route("/register").post(Signup);
+
+/* router.post(
 	'/register',
 	body('username', 'Username field cannot be empty.').notEmpty(),
 	body('username', 'Username must be between 5-15 characters long.').isLength({ min: 5, max: 15 }),
@@ -41,6 +64,6 @@ router.post(
 		return true;
 	}),
     userControllers.userRegister
-);
+); */
 
 module.exports = router

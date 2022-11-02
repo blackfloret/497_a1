@@ -1,4 +1,31 @@
-const mongoose = require("mongoose");
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = new Sequelize ({
+	host: "blogdb.cjefnmgsr53w.us-west-2.rds.amazonaws.com",
+	database: "BlogDB",
+	username: "newuser",
+	password: "1234",
+	dialect: "mysql",
+})
+
+exports.User = sequelize.define("users", {
+	id: {
+		type: DataTypes.INTEGER,
+		autoIncrement: true,
+		primaryKey: true,
+	},
+	email: {
+		type: DataTypes.STRING,
+	},
+	username: {
+		type: DataTypes.STRING,
+	},
+	password: {
+		type: DataTypes.STRING,
+	},
+})
+
+
+/* const mongoose = require("mongoose");
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -22,4 +49,4 @@ const userSchema = new mongoose.Schema({
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema); */

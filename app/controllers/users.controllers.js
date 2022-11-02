@@ -1,4 +1,52 @@
-const User = require('../models/user');
+const { User } = require('../models/user');
+const bcrypt = require("bcrypt");
+
+exports.Signup = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const salt = await bcrypt.genSalt(12);
+
+        const hashed_password = await bcrypt.hash(password, salt);
+
+        const user = await User.create({ email, password: hashed_passord });
+        if(user) {
+            res.redirect('/post');
+        }
+    } catch(e) {
+        res.redirect('/user/register');
+    }
+}
+
+exports.HomePage = async (req, res) => {
+    if (!req.user) {
+      return res.redirect("/");
+    }
+    res.render("home", {
+      sessionID: req.sessionID,
+      sessionExpireTime: new Date(req.session.cookie.expires) - new Date(),
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user,
+    });
+   };
+   
+exports.LoginPage = async (req, res) => {
+    res.direct("/user/login");
+};
+
+exports.registerPage = async (req, res) => {
+    res.direct("/user/register");
+};
+
+exports.Logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return console.log(err);
+        }
+        res.redirect("/");
+    })
+}
+
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 
