@@ -1,9 +1,10 @@
+const { config } = require("dotenv");
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize ({
-	host: "blogdb.cjefnmgsr53w.us-west-2.rds.amazonaws.com",
-	database: "BlogDB",
-	username: "admin",
-	password: "password",
+	host: config.get("db:host"),
+	database: config.get("db:name"),
+	username: config.get("db:username"),
+	password: config.get("db:password"),
 	dialect: "mysql",
 })
 
