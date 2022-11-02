@@ -15,10 +15,7 @@ const connectRedis = require("connect-redis");
 const { createClient } = require("redis");
 const passport = require("passport");
 
-const bodyParser = require('body-parser');/* 
-const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo');
-const mongoSanitize = require('express-mongo-sanitize'); */
+const bodyParser = require('body-parser');
 
 
 const User = require("./models/user");
@@ -38,7 +35,7 @@ app.use(compression());
 app.use(express.static('public'));
 
 // Redis config
-const redis = new Redis("blogredis-001.yl7oqa.0001.usw2.cache.amazonaws.com");
+const redis = new Redis("blogcluster.ntwtkd.ng.0001.usw2.cache.amazonaws.com");
 /* const redisClient = createClient({ 
 	legacyMode: true,
 	socket: {
