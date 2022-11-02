@@ -59,7 +59,7 @@ const userLogout = (req, res, next) => {
     res.redirect('/post/about');
 };
 
-const userRegister = (req, res, next) => {
+const userRegister = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -73,23 +73,9 @@ const userRegister = (req, res, next) => {
 
     console.log(input_username);
 
-    const userExists = User.exists({ username: input_username }, function (err, doc) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Result :', doc); // false
-            return doc;
-        }
-    });
+    const userExists = await User.findOne({ where: { user: input_user}});
+    const emailExists = await User.findOne({ where: { email: input_email}});
 
-    const emailExists = User.exists({ email: input_email }, function (err, doc) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Result :', doc); // false
-            return doc;
-        }
-    });
 
     console.log(userExists);
 

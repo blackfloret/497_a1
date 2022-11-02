@@ -45,9 +45,9 @@ router.get('/register', function(req, res) {
 	});
 });
 
-router.post("/register", function(req, res) {
+/* router.post("/register", function(req, res) {
 	userControllers.Signup;
-})
+}) */
 
 //route("/register").post(Signup);
 
