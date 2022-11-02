@@ -4,14 +4,12 @@ const config = require('./config/config');
 const compression = require ('compression');
 const helmet = require('helmet');
 const fs = require('fs');
-const { Client } = require("pg");
 const http= require("http");
 
 
 
 
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
@@ -38,17 +36,8 @@ app.use(express.static('public'));
 app.set('trust proxy', 1); // trust first proxy
 
 
-const {user, host, database, password, port } = require("./config/awsconfig");
 
-const client = new Client({
-	user,
-	host,
-	database,
-	password,
-	port
-});
-
-client.connect();
+const session = require('express-session');
 
 const selfPort = config.get('port') || 3000;
 /* const blogDB = config.get('db.name')
@@ -70,6 +59,7 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
 
 app.use(
 	session({
+		store: new RedisStore({ client: redisClient}),
 		secret: config.get('secret'),
 		resave: false,
 		saveUninitialized: false,
@@ -112,4 +102,4 @@ const server = http.createServer(app.listen(selfPort,() => {
 	console.log('Listening ...Server started on port ' + selfPort);
 	}))
 
-module.exports = { app, client };
+module.exports = app
