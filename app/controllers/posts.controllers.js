@@ -15,10 +15,10 @@ const composePost = async (req, res) => {
 };
 
 const displayAllPosts = async (req, res) => {
-	const posts = await Post.findAll();
+	//const posts = await Post.findAll();
 	res.render('home', {
 		startingContent: homeStartingContent,
-		post: posts
+		post: await Post.findAll()
 	});
 /* 	Post.find({}, function(err, posts) {
 		res.render('home', {
