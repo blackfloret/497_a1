@@ -1,7 +1,4 @@
 {
     "env":"dev",
-    "port":4000,
-    "db": {
-        "name": "userBlogs"
-    }
+    "port":4000
 }

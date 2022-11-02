@@ -1,7 +1,4 @@
 {
     "env":"test",
-    "port":3000,
-    "db": {
-        "name": "userBlogs"
-    }
+    "port":3000
 }
