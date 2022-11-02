@@ -5,6 +5,7 @@ const compression = require ('compression');
 const helmet = require('helmet');
 const https= require("https");
 const fs = require('fs')
+const Redis = require("ioredis");
 
 const { passportConfig } = require("passport");
 
@@ -37,15 +38,15 @@ app.use(compression());
 app.use(express.static('public'));
 
 // Redis config
-
-const redisClient = createClient({ 
+const redis = new Redis("blogcluster.ntwtkd.ng.0001.usw2.cache.amazonaws.com");
+/* const redisClient = createClient({ 
 	legacyMode: true,
 	socket: {
 		host: "blogcluster.ntwtkd.ng.0001.usw2.cache.amazonaws.com",
 		port: 6379
 	} 
 });
-redisClient.connect().catch(console.error);
+redisClient.connect().catch(console.error); */
 const RedisStore = connectRedis(session);
 
 // Session middleware
@@ -73,7 +74,7 @@ const dbConnection = mongoose.connect(blog_db_url, (err) => {
 
 app.use(
 	session({
-	  store: new RedisStore({ client: redisClient }),
+	  store: new RedisStore({ client: redis }),
 	  secret: SESSION_SECRET,
 	  resave: false,
 	  saveUninitialized: false,
