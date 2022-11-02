@@ -4,3 +4,9 @@ server.cert
 server.key
 node_modules/
 /*.env
+config.js
+dev.json
+prod.json
+test.json
+awsconfig
+config
