@@ -1,0 +1,11 @@
+Group Members: Derrick Black, Charlie Flood
+
+We initially attempted to implement PostgreSQL due to familiarity, but ended
+up running into more issues than necessary, so switched over to MySql. 
+
+The most challenging part of this assignment was implementing session
+storing with Redis, this was the point we decided to switch to MySql because of
+the challenges. We used a mixture of the slides, lecture recordings and external
+sources to solve our issues.
+
+We are unsure that page redirection works correctly when registering and logging in to the app.
