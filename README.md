@@ -1,9 +1,9 @@
 # cs497_a3
 
-We initially attempted to implement PostgreSQL due to familiarity, but ended
-up running into more issues than necessary, so switched over to MySql. 
-We used the authentication strategy that was already implemented in the app
-that we were given to make it easier
+Members: Charlie Flood, Derrick Blackk
 
-App Link:
-[blog app](https://bloglb-498601105.us-west-2.elb.amazonaws.com/post/about)
+ALB link: A3LoadBalancer-96546159.us-west-2.elb.amazonaws.com 
+
+The most challenging part of this assignment was setting up the SQS service and setting up the docker image and pushing it to dockerhub. We used lecture recordings and documentation from github/docker docs to figure it out.
+
+We are unsure if the SQS lambda trigger is working properly, we are also unsure about the docker image succesfully being pushed to dockerhub, the process was a bit ambiguous.
